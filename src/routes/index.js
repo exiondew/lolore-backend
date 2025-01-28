@@ -1,10 +1,10 @@
 const { Router } = require("express");
 
-const listRouter = require("./router.list");
+const championsRouter = require("./champions.router");
 
 const router = Router();
 
-router.use("/list", listRouter);
+router.use("/champions", championsRouter);
 
 // 404
 router.use("/", (req, res) => {

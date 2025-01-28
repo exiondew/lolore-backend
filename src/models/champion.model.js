@@ -1,11 +1,10 @@
-const { model, Schema } = require("mongoose");
+const { model, Schema, Types } = require("mongoose");
 
-const { Race, ChampionName, Region } = require("../constants");
-
-const ChampionNames = Object.values(ChampionName);
+const { ChampionNames } = require("../constants");
+const { RoleNames } = require("../constants");
 
 // schema
-const CharacterSchema = new Schema(
+const ChampionSchema = new Schema(
   {
     name: {
       type: String,
@@ -15,17 +14,21 @@ const CharacterSchema = new Schema(
       enum: ChampionNames,
       unique: true,
     },
-    race: {
+    role: {
       type: String,
       required: true,
       trim: true,
-      enum: Object.values(Race),
+      enum: RoleNames,
+    },
+    race: {
+      type: Types.ObjectId,
+      ref: "Race",
+      required: true,
     },
     region: {
-      type: String,
+      type: Types.ObjectId,
+      ref: "Region",
       required: true,
-      trim: true,
-      enum: Object.values(Region),
     },
     avatar: { type: String, required: true, trim: true },
     date: { type: String, required: false, match: /^\d{2}-\d{2}$/ },
@@ -41,4 +44,6 @@ const CharacterSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("Character", CharacterSchema);
+const Champion = model("Champion", ChampionSchema);
+
+module.exports = Champion;
